@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  dev:
+    container_name: api-server-dev
+    image: api-server-dev:1.0.0
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    user: node
+    working_dir: /usr/src/server
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/usr/src/server
+      - /usr/src/server/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: npm run start:debug
+    networks: 
+      - nestnet
+  prod:
+    container_name: api-server-prod
+    image: api-server-prod:1.0.0
+    build:
+      context: .
+      target: production
+      dockerfile: ./Dockerfile
+    user: node
+    working_dir: /usr/server
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - /usr/server/node_modules
+    ports:
+      - 80:3000
+    command: npm run start:prod
+    networks: 
+      - nestnet
+    restart: unless-stopped
+networks:
+  nestnet:
