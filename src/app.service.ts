@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return `Hello! ${process.env['NODE_ENV']}`
+  version(): string {
+    return 'dpmapi-v0.0.1'
   }
 }
